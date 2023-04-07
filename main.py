@@ -8,7 +8,8 @@ import urllib
 import urllib3
 urllib3.disable_warnings()
 session = requests.Session()
-sno = "" # 自己的学号
+# sno = "" # 自己的学号
+sno = input("请输入学号：")
 
 userprojectid = ""
 userid = ""
@@ -142,6 +143,9 @@ def login(session):
         "type":1
     })
     result = json.loads(result.text)
+    if result["msg"] == "该用户已经绑定过微信!":
+        print("请解绑微信和账号的关联，进入安全微伴-->我的-->解除微信绑定")
+        return
     userid = result["data"]["userId"]
     username = result["data"]["userName"]
     result = session.post("https://weiban.mycourse.cn/pharos/index/listStudyTask.do?timestamp={}".format(int(time.time())), verify=False, data={

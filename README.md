@@ -16,6 +16,8 @@ Please note that the progress won't be make if the sleep time being set too low.
 
 You can modify Student ID in line 11 and sleep time in line 16.
 
+## Cancel Binding
+
 # Usage
 
 ```python ./main.py```
