@@ -177,7 +177,7 @@ def finishExam(session):
         for option in i["optionList"]:
             answer += "选项id：'{}'，选项内容：'{}'\n".format(option["id"], option["content"])
         str1 = "{}, 问题：{}\n{}".format(type, i["title"], answer)
-        answerid = send_to_chatGPT(str1)
+        answerid = send_to_chatGPT(str1, api_key)
         data["questionId"] = i["id"]
         data["answerIds"] = answerid
         data["useTime"] = int(time.time()) - int(session.cookies.get("SERVERID").split("|")[1]) + 1,
@@ -200,6 +200,7 @@ if __name__ == "__main__":
     # sno = "" # 自己的学号
     if not os.path.exists("./token.txt"):
         sno = input("请输入学号：")
+    api_key = "" # 如果需要自动做题，填入chatGPT的api key
     userprojectid = ""
     userid = ""
     username = ""
