@@ -219,4 +219,4 @@ if __name__ == "__main__":
     login(session)
     get_course_id(session)
     # finishExam(session)  #  如果需要gpt作答，请取消此行注释
-    cancel_bind(session, userid)  # 如果没有解绑请单独运行cancel_bind
+    cancel_bind(session, userid)   # 如果没有解绑请单独运行cancel_bind

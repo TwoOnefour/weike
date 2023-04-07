@@ -29,3 +29,5 @@ Make issue if any question exists.
 
 ![image](https://user-images.githubusercontent.com/77989499/230560632-97563819-e665-477b-a940-6088981b9e02.png)
 
+# About GPT
+exam() function uses GPT's API to solve the exam problem. It may not get high score while it is convenient.

@@ -74,6 +74,6 @@ if __name__ == "__main__":
             username = result[0]
             userprojectid = result[0]
     else:
-        sno = "" # 你的学号
+        sno = input("请输入学号:") # 你的学号
     login(session)
     cancel_bind(session, userid)
