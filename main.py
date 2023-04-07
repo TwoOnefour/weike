@@ -7,6 +7,9 @@ import urllib
 import urllib3
 urllib3.disable_warnings()
 session = requests.Session()
+userprojectid = "" # 填入自己的，下面略
+userid = ""
+username = ""
 headers = {
     "Host": "weiban.mycourse.cn",
     "Accept": "*/*",
@@ -26,9 +29,9 @@ session.headers.update(headers)
 
 def get_category_id(session):
     data = {
-        "userProjectId": "ab23ea7e-fefd-4b86-8531-50dc3f8e6b89",
+        "userProjectId": userprojectid,
         "chooseType":3,
-        "userId": "242f1f20-fbd6-458e-a9a4-9035c2f3917f",
+        "userId": userid,
         "tenantCode": 43000010
     }
     result = session.post("https://weiban.mycourse.cn/pharos/usercourse/listCategory.do?timestamp={}".format(int(time.time())), data=data,verify=False)
@@ -38,9 +41,9 @@ def get_course_id(session):
         result = get_category_id(session)
         for i in result["data"]:
             data = {
-                "userProjectId": "ab23ea7e-fefd-4b86-8531-50dc3f8e6b89",
+                "userProjectId": userprojectid, # 自己的userprojectid
                 "chooseType": 3,
-                "userId": "242f1f20-fbd6-458e-a9a4-9035c2f3917f",
+                "userId": userid, # 自己的userid
                 "tenantCode": 43000010,
                 "categoryCode": i["categoryCode"]
             }
@@ -53,9 +56,9 @@ def get_course_id(session):
                     continue
                 data = {
                     "courseId": j["resourceId"],
-                    "userProjectId": "ab23ea7e-fefd-4b86-8531-50dc3f8e6b89",
+                    "userProjectId": userprojectid,
                     "tenantCode": 43000010,
-                    "userId": "242f1f20-fbd6-458e-a9a4-9035c2f3917f",
+                    "userId": userid,
                 }
                 result2 = session.post(
                     "https://weiban.mycourse.cn/pharos/usercourse/getCourseUrl.do?timestamp={}".format(int(time.time())),
@@ -70,7 +73,7 @@ def get_course_id(session):
                 data["type"] = 1
                 # data["methodToken"] = token
                 data["csCom"] = False
-                data["userName"] = "a775aed9eb1944579fe0a34f290fc093"
+                data["userName"] = username # 填入自己的username
                 data["weiban"] = "weiban"
                 data["link"] = j["praiseNum"]
                 result4 = requests.get(url, verify=False,params=data,headers={
