@@ -200,7 +200,6 @@ if __name__ == "__main__":
     # sno = "" # 自己的学号
     if not os.path.exists("./token.txt"):
         sno = input("请输入学号：")
-    api_key = "" # 如果需要自动做题，填入chatGPT的api key
     userprojectid = ""
     userid = ""
     username = ""
@@ -218,5 +217,6 @@ if __name__ == "__main__":
     session.headers.update(headers)
     login(session)
     get_course_id(session)
+    api_key = ""  # 如果需要自动做题，填入chatGPT的api key
     # finishExam(session)  #  如果需要gpt作答，请取消此行注释
     cancel_bind(session, userid)   # 如果没有解绑请单独运行cancel_bind
