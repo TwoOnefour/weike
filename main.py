@@ -1,5 +1,6 @@
+import os.path
 import random
-
+from cancel_bind import cancel_bind
 import requests
 import time
 import json
@@ -7,7 +8,9 @@ import urllib
 import urllib3
 urllib3.disable_warnings()
 session = requests.Session()
-userprojectid = "" # 填入自己的，下面略
+sno = "" # 自己的学号
+
+userprojectid = ""
 userid = ""
 username = ""
 sleeptime = 30  # sleeptime
@@ -15,7 +18,7 @@ headers = {
     "Host": "weiban.mycourse.cn",
     "Accept": "*/*",
     "Connection": "keep-alive",
-    "X-Token":"63501030-78bc-4811-b191-e56e52e5982a",
+    # "X-Token":"63501030-78bc-4811-b191-e56e52e5982a",
     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.34(0x1800222f) NetType/WIFI Language/en",
     "Accept-Language": "en-US,en;q=0.9",
     "Referer": "https://weiban.mycourse.cn/index.html",
@@ -38,51 +41,50 @@ def get_category_id(session):
     result = session.post("https://weiban.mycourse.cn/pharos/usercourse/listCategory.do?timestamp={}".format(int(time.time())), data=data,verify=False)
     return json.loads(result.text)
 def get_course_id(session):
-    while True:
-        result = get_category_id(session)
-        for i in result["data"]:
+    result = get_category_id(session)
+    for i in result["data"]:
+        data = {
+            "userProjectId": userprojectid, # 自己的userprojectid
+            "chooseType": 3,
+            "userId": userid, # 自己的userid
+            "tenantCode": 43000010,
+            "categoryCode": i["categoryCode"]
+        }
+        result1 = session.post(
+            "https://weiban.mycourse.cn/pharos/usercourse/listCourse.do?timestamp={}".format(int(time.time())),
+            data=data,verify=False).text
+        result1 = json.loads(result1)
+        for j in result1["data"]:
+            if j["finished"] == 1:
+                continue
             data = {
-                "userProjectId": userprojectid, # 自己的userprojectid
-                "chooseType": 3,
-                "userId": userid, # 自己的userid
+                "courseId": j["resourceId"],
+                "userProjectId": userprojectid,
                 "tenantCode": 43000010,
-                "categoryCode": i["categoryCode"]
+                "userId": userid,
             }
-            result1 = session.post(
-                "https://weiban.mycourse.cn/pharos/usercourse/listCourse.do?timestamp={}".format(int(time.time())),
+            result2 = session.post(
+                "https://weiban.mycourse.cn/pharos/usercourse/getCourseUrl.do?timestamp={}".format(int(time.time())),
                 data=data,verify=False).text
-            result1 = json.loads(result1)
-            for j in result1["data"]:
-                if j["finished"] == 1:
-                    continue
-                data = {
-                    "courseId": j["resourceId"],
-                    "userProjectId": userprojectid,
-                    "tenantCode": 43000010,
-                    "userId": userid,
-                }
-                result2 = session.post(
-                    "https://weiban.mycourse.cn/pharos/usercourse/getCourseUrl.do?timestamp={}".format(int(time.time())),
-                    data=data,verify=False).text
-                # print(result1.text)
-                result3 = session.post(
-                    "https://weiban.mycourse.cn/pharos/usercourse/study.do?timestamp={}".format(int(time.time())),
-                    data=data, verify=False)
-                url = json.loads(result2)["data"]
-                parseResult = urllib.parse.urlparse(url)
-                token = parseResult.query.split("&")[3][12:]
-                data["type"] = 1
-                # data["methodToken"] = token
-                data["csCom"] = False
-                data["userName"] = username # 填入自己的username
-                data["weiban"] = "weiban"
-                data["link"] = j["praiseNum"]
-                result4 = requests.get(url, verify=False,params=data,headers={
-                "referer": "https://weiban.mycourse.cn/",
-                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.34(0x1800222f) NetType/WIFI Language/en",
-                })
-                time.sleep(sleeptime)  # 这里要等一下，不然刷不了
-                finish_course(session, j["userCourseId"], parseResult.query.split("&")[3][12:])
+            # print(result1.text)
+            result3 = session.post(
+                "https://weiban.mycourse.cn/pharos/usercourse/study.do?timestamp={}".format(int(time.time())),
+                data=data, verify=False)
+            url = json.loads(result2)["data"]
+            parseResult = urllib.parse.urlparse(url)
+            token = parseResult.query.split("&")[3][12:]
+            data["type"] = 1
+            # data["methodToken"] = token
+            data["csCom"] = False
+            data["userName"] = username # 填入自己的username
+            data["weiban"] = "weiban"
+            data["link"] = j["praiseNum"]
+            result4 = requests.get(url, verify=False,params=data,headers={
+            "referer": "https://weiban.mycourse.cn/",
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.34(0x1800222f) NetType/WIFI Language/en",
+            })
+            time.sleep(sleeptime)  # 这里要等一下，不然刷不了
+            finish_course(session, j["userCourseId"], parseResult.query.split("&")[3][12:])
 
 
 def finish_course(session, userCourseId, token):
@@ -117,4 +119,43 @@ def finish_course(session, userCourseId, token):
 },cookies={"SERVERID":session.cookies.get("SERVERID")}, verify=False)
     # print(1)
     # print(result)
+def login(session):
+    global userid, username, userprojectid
+    if os.path.exists("./token.txt"):
+        with open("./token.txt", "r") as f:
+            result = f.readlines()
+            userid = result[0].strip("\n")
+            username = result[1].strip("\n")
+            userprojectid = result[2].strip("\n")
+        return
+    openid = ""
+    for i in range(28):
+        if (i + random.randint(65, 91)) % 2 == 0:
+            openid += chr(random.randint(65, 90))
+        else:
+            openid += chr(random.randint(97, 122))
+    result = session.post("https://weiban.mycourse.cn/pharos/login/bindWechat.do?timestamp={}".format(int(time.time())),verify=False,data={
+        "sno": sno,
+        "password": sno,
+        "openid": openid,  # 这个可以为假，位数正确即可 "oeNCVuNUTOo9YSuBDVasVYCY0vsB"
+        "tenantCode":43000010,
+        "type":1
+    })
+    result = json.loads(result.text)
+    userid = result["data"]["userId"]
+    username = result["data"]["userName"]
+    result = session.post("https://weiban.mycourse.cn/pharos/index/listStudyTask.do?timestamp={}".format(int(time.time())), verify=False, data={
+        "userId": userid,
+        "tenantCode": 43000010,
+        "limit": 3
+    })
+    result = json.loads(result.text)
+    userprojectid = result["data"][0]["userProjectId"]
+    with open("./token.txt", "w") as f:
+        f.write(userid + "\n")
+        f.write(username + "\n")
+        f.write(userprojectid)
+
+login(session)
 get_course_id(session)
+cancel_bind(session, userid)  # 如果没有解绑请单独运行cancel_bind
