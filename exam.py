@@ -3,7 +3,7 @@ import time
 import json
 import openai
 def send_to_chatGPT(question):
-    openai.api_key = "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"
+    openai.api_key = ""  # 填入chatGPT的api key
 
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -31,14 +31,3 @@ def exam(session,userid,userExamPlanId):
         "userId":userid
     }, verify=False).text)
 
-if __name__ == "__main__":
-    openai.api_key = "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"
-
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": 'user', "content": "只需要回复ff3e1f1b-8fdc-11ed-a45a-6805cab01fc0"}
-        ]
-    )
-
-    print(completion.choices[0].message)

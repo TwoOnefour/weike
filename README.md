@@ -1,5 +1,5 @@
 # Description and Configuration
-This is a weike script automatically finishing the course in weike.
+This is a weike script automatically finishing the course and exam in weike.
 # Configuration
 ## Module
 
