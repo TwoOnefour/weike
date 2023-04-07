@@ -14,7 +14,7 @@ Use your own Student ID then run the code.
 
 Please note that the progress won't be make if the sleep time being set too low.
 
-You can modify the config in line 11.
+You can modify Student ID in line 11 and sleep time in line 16.
 
 # Usage
 
