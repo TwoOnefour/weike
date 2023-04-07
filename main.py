@@ -77,7 +77,7 @@ def get_course_id(session):
                 "referer": "https://weiban.mycourse.cn/",
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.34(0x1800222f) NetType/WIFI Language/en",
                 })
-                time.sleep(1)  # 这里要等一下，不然刷不了
+                time.sleep(60)  # 这里要等一下，不然刷不了
                 finish_course(session, j["userCourseId"], parseResult.query.split("&")[3][12:])
 
 
