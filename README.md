@@ -20,7 +20,7 @@ You can modify the config in line 11.
 
 ```python ./main.py```
 
-if the program is interrupted by any reason, please run ```python ./cancel_bind.py``` to make sure the account not associate with any openid.
+if the program is interrupted by any reason, please run ```python ./cancel_bind.py``` to make sure the account not be associate with any openid.
 
 Make issue if any question exists.
 
