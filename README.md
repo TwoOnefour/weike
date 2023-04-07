@@ -17,6 +17,7 @@ Please note that the progress won't be make if the sleep time being set too low.
 You can modify Student ID in line 11 and sleep time in line 16.
 
 ## Cancel Binding
+![image](https://user-images.githubusercontent.com/77989499/230581033-da1cee09-6691-434f-ac0a-e41de75bb9ad.png)
 
 # Usage
 
