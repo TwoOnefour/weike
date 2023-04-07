@@ -9,4 +9,4 @@ You can modify the config from line 10 to line 13.
 
 Make issue if any question exists.
 
-![IMG_5484](https://user-images.githubusercontent.com/77989499/230560326-daf99d7c-f944-4963-94f9-465ae685432a.PNG)
+![image](https://user-images.githubusercontent.com/77989499/230560632-97563819-e665-477b-a940-6088981b9e02.png)
