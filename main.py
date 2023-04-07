@@ -10,7 +10,7 @@ session = requests.Session()
 userprojectid = "" # 填入自己的，下面略
 userid = ""
 username = ""
-sleeptime = 60
+sleeptime = 30  # sleeptime
 headers = {
     "Host": "weiban.mycourse.cn",
     "Accept": "*/*",
