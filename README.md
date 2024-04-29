@@ -7,7 +7,7 @@ It bases on requests
 
 ```pip install requests```
 or
-```pip install -i requirements.txt```
+```pip install -r requirements.txt```
 
 ## Modify the Config
 Use your own Student ID then run the code.
