@@ -1,3 +1,14 @@
+# 描述
+这是一个安全微伴自动刷课程序，可以完成课程视频，使用gpt的api_key可以自动答题
+
+# 用法
+`pip install -r requirements.txt`安装依赖
+
+`python main.py`
+
+输入你的学号即可自动刷课
+
+
 # Description and Configuration
 This is a weike script automatically finishing the course and exam in weike.
 # Configuration
