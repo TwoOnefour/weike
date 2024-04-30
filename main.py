@@ -224,5 +224,5 @@ if __name__ == "__main__":
     cancel_bind(session, userid)
     get_course_id(session)
     api_key = ""  # 如果需要自动做题，填入chatGPT的api key
-    finishExam(session)  #  如果需要gpt作答，请取消此行注释
+    # finishExam(session)  #  如果需要gpt作答，请取消此行注释
     cancel_bind(session, userid)   # 如果没有解绑请单独运行cancel_bind
