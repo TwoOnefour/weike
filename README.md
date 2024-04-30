@@ -10,6 +10,8 @@
 
 # 答题（可选）
 
+不推荐使用，因为自己答题更容易拿80分及格，使用gpt-4很贵，去年测试使用gpt-3.5一般只有50-60分，而且浪费考试次数
+
 如果需要使用gpt,请在exam.py中添加
 
 `openai.proxy = "http://127.0.0.1:10808"`
@@ -17,6 +19,7 @@
 其中127.0.0.1:10808为你的代理ip和端口
 
 并取消main.py中最后几行finish_exam()的注释
+
 
 # Description and Configuration
 This is a weike script automatically finishing the course and exam in weike.
