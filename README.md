@@ -8,6 +8,15 @@
 
 输入你的学号即可自动刷课
 
+# 答题（可选）
+
+如果需要使用gpt,请在exam.py中添加
+
+`openai.proxy = "http://127.0.0.1:10808"`
+
+其中127.0.0.1:10808为你的代理ip和端口
+
+并取消main.py中最后几行finish_exam()的注释
 
 # Description and Configuration
 This is a weike script automatically finishing the course and exam in weike.
