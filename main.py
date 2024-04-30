@@ -25,6 +25,7 @@ def get_category_id(session):
     result = session.post("https://weiban.mycourse.cn/pharos/usercourse/listCategory.do?timestamp={}".format(int(time.time())), data=data,verify=False)
     return json.loads(result.text)
 def get_course_id(session):
+    print("开始刷课")
     result = get_category_id(session)
     for i in result["data"]:
         data = {
@@ -156,8 +157,8 @@ def finishExam(session):
         "tenantCode":43000010,
         "userId":userid
     })
-    userExamPlanId = json.loads(result1.text)["data"]["userExamPlanId"]
-    examPlanId = json.loads(result1.text)["data"]["id"]
+    userExamPlanId = json.loads(result1.text)["data"][0]["id"]
+    examPlanId = json.loads(result1.text)["data"][0]["examPlanId"]
     result = exam(session, userid, userExamPlanId)
 
 
@@ -170,6 +171,7 @@ def finishExam(session):
         "userId":userid,
         "questionId":"",
     }
+    print("开始刷题")
     for i in result["data"]["questionList"]:
         # str1 = ""
         answer = ""
@@ -190,7 +192,8 @@ def finishExam(session):
     "tenantCode":43000010,
     "userId":userid
     })
-    print(result.text)
+    # print(result.text)
+    print("刷题完毕")
 # print(result.text)
 # send_to_chatGPTlogin(session)
 
@@ -214,9 +217,12 @@ if __name__ == "__main__":
         "Referer": "https://weiban.mycourse.cn/index.html",
         "Accept-Encoding": "gzip, deflate, br"
     }
+
     session.headers.update(headers)
+    cancel_bind(session, userid)
     login(session)
+    cancel_bind(session, userid)
     get_course_id(session)
     api_key = ""  # 如果需要自动做题，填入chatGPT的api key
-    # finishExam(session)  #  如果需要gpt作答，请取消此行注释
+    finishExam(session)  #  如果需要gpt作答，请取消此行注释
     cancel_bind(session, userid)   # 如果没有解绑请单独运行cancel_bind
