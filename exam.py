@@ -5,7 +5,7 @@ import openai
 def send_to_chatGPT(question, api_key):
     openai.api_key = api_key
     # openai.api_key = ""
-
+    # openai.proxy = "http://127.0.0.1:10809"
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
